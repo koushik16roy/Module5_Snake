@@ -5,8 +5,17 @@ using UnityEngine;
 public class SnakeBody : MonoBehaviour
 {
     Vector2 deltaMovement;
-    protected SnakeBody isFollow = null;
+    //follow snake head or not 
+    public SnakeBody isFollow = null;
 
+    public bool isTail = false;
+
+    private SpriteRenderer spriteRenderer = null;
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -30,9 +39,26 @@ public class SnakeBody : MonoBehaviour
     public void updateDirection()
     {
         //position on screen direction on 3-D plane x,y,z axis we will use luner angles to represent angles 
-        if(deltaMovement.y > 0) { gameObject.transform.localEulerAngles = new Vector3(0, 0, 0); }
-            else if(deltaMovement.y < 0) { gameObject.transform.localEulerAngles = new Vector3(0, 0, 180); }
-                else if(deltaMovement.x < 0) { gameObject.transform.localEulerAngles = new Vector3(0, 0, 90); }
-                    else if(deltaMovement.x > 0) { gameObject.transform.localEulerAngles = new Vector3(0, 0, -90); }
+        if(deltaMovement.y > 0) 
+        { gameObject.transform.localEulerAngles = new Vector3(0, 0, 0); }
+            else if(deltaMovement.y < 0) 
+        { gameObject.transform.localEulerAngles = new Vector3(0, 0, 180); }
+                else if(deltaMovement.x < 0) 
+        { gameObject.transform.localEulerAngles = new Vector3(0, 0, 90); }
+                    else if(deltaMovement.x > 0)
+        { gameObject.transform.localEulerAngles = new Vector3(0, 0, -90); }
+    }
+
+    //turn the body into tail
+    public void turnIntoTail()
+    {
+        isTail = true;
+        spriteRenderer.sprite = GameController.instance.tailSprite;
+
+    }
+    public void TurnIntoBody()
+    {
+        isTail = false;
+        spriteRenderer.sprite = GameController.instance.bodySprite;
     }
 }
