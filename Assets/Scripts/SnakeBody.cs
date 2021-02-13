@@ -12,6 +12,12 @@ public class SnakeBody : MonoBehaviour
 
     private SpriteRenderer spriteRenderer = null;
 
+    const int PARTSREMEMBER = 10;
+    public Vector3[] previousPosition = new Vector3[PARTSREMEMBER];
+
+    public int setIndex = 0;
+    public int getIndex = -(PARTSREMEMBER - 1);
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -23,10 +29,57 @@ public class SnakeBody : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    virtual public void Update()
     {
+        Vector3 followHead;
+        if(isFollow != null)
+        {
+            if(isFollow.getIndex > -1)
+            {
+                followHead = isFollow.previousPosition[isFollow.getIndex];
+            }
+            else
+            {
+                followHead = isFollow.transform.position;
+            }
+        }
+        else
+        {
+            followHead = gameObject.transform.position;
+        }
+
         
+        previousPosition[setIndex].x = gameObject.transform.position.x;
+        previousPosition[setIndex].y = gameObject.transform.position.y;
+        previousPosition[setIndex].z = gameObject.transform.position.z;
+
+        setIndex++;
+
+        if (setIndex >= PARTSREMEMBER) { setIndex = 0; }
+
+        getIndex++;
+
+        if (getIndex >= PARTSREMEMBER) { getIndex = 0; }
+        
+        //not head
+        if(isFollow != null)
+        {
+            Vector3 newPosition;
+            if (isFollow.getIndex > -1)
+            {
+                newPosition = followHead;
+            }
+            else
+            {
+                newPosition = isFollow.transform.position;
+            }
+            newPosition.z += 0.01f;
+            setMovement(newPosition - gameObject.transform.position);
+            updateDirection();
+            updatePosition();
+        }
     }
+    
     public void setMovement(Vector2 movement)
     {
         deltaMovement = movement;

@@ -19,8 +19,10 @@ public class SnakeHead :  SnakeBody
     }
 
     // Update is called once per frame
-    void Update()
+    override public void Update()
     {
+        //calling from virtual update function from snakebody class
+        base.Update();
         //calling from SnakeBody.cs for movement along the head 
         setMovement(movement);
         updateDirection();
@@ -42,8 +44,10 @@ public class SnakeHead :  SnakeBody
     {
         if(tail == null)
         {
+            Vector3 newPosition = transform.position;
+            newPosition.z += 0.01f;
             //automatically awake when snake head eat cherry , and rest body awake automatically , and then it will become a tail of snake  
-            SnakeBody spawn = Instantiate(GameController.instance.snakeBodyPrefab, transform.position,Quaternion.identity);
+            SnakeBody spawn = Instantiate(GameController.instance.snakeBodyPrefab, newPosition,Quaternion.identity);
             //storing bodypart prefabs to "this" 
             spawn.isFollow = this;
             tail = spawn;
@@ -52,7 +56,7 @@ public class SnakeHead :  SnakeBody
         else
         {
             Vector3 newPosition = tail.transform.position;
-            newPosition.z = newPosition.z + 0f;
+            newPosition.z = newPosition.z + 0.01f;
             SnakeBody spawn = Instantiate(GameController.instance.snakeBodyPrefab, newPosition, Quaternion.identity);
             spawn.isFollow = null;
             spawn.turnIntoTail();
@@ -103,7 +107,7 @@ public class SnakeHead :  SnakeBody
     {
         tail = null;
         moveUp();
-        partsToAdd = 10;
+        partsToAdd = 5;
         AddTimer = AddBodyPart;
     }
 }
