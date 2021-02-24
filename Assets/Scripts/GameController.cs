@@ -19,6 +19,8 @@ public class GameController : MonoBehaviour
 
     public SnakeHead snakeHead = null;
 
+    public bool alive = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,8 +40,15 @@ public class GameController : MonoBehaviour
     {
        snakeHead.ResetSnake();
     }
+
+    public void GameOver()
+    {
+        alive = false;
+    }
+
     void CreateWalls()
     {
+        
         //left - notdone
         Vector3 start = new Vector3(-width, -height, 0);
         Vector3 end = new Vector3(-width, +height, 0);
@@ -49,7 +58,7 @@ public class GameController : MonoBehaviour
          end = new Vector3(width, +height, 0);
         CreateWall(start, end);
         //up - not done
-        start = new Vector3(width, -height, 0);
+        start = new Vector3(width, -height,  0  );
         end = new Vector3(-width, height, 0);
         CreateWall(start, end);
         //down - not done

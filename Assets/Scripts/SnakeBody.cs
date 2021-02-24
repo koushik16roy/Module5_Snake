@@ -31,6 +31,8 @@ public class SnakeBody : MonoBehaviour
     // Update is called once per frame
     virtual public void Update()
     {
+        if (!GameController.instance.alive) return;
+
         Vector3 followHead;
         if(isFollow != null)
         {

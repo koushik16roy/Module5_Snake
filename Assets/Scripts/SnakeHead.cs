@@ -21,6 +21,9 @@ public class SnakeHead :  SnakeBody
     // Update is called once per frame
     override public void Update()
     {
+        //if (!GameController.instance.alive)  return;
+        
+
         //calling from virtual update function from snakebody class
         base.Update();
         //calling from SnakeBody.cs for movement along the head 
@@ -109,5 +112,19 @@ public class SnakeHead :  SnakeBody
         moveUp();
         partsToAdd = 5;
         AddTimer = AddBodyPart;
+    }
+
+    //trigger method physics collision 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Egg egg = collision.GetComponent<Egg>();
+        if (egg)
+        {
+            Debug.Log("hit egg ");
+        }
+        else
+        {
+            Debug.Log("hit wall");
+            GameController.instance.GameOver();        }
     }
 }
